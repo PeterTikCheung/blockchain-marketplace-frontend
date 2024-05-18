@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { ethers } from "ethers";
+import { useDispatch } from "react-redux";
+import {
+  setIsConnectedState,
+  setAccountDataState,
+} from "../../redux/slices/metamaskSlice";
 
 function useMetamask() {
-  const [isConnected, setIsConnected] = useState(false);
-  const [accountData, setAccountData] = useState({
-    address: "",
-    Balance: null,
-  });
+  const dispatch = useDispatch();
 
   const getBalance = (account) => {
     // Requesting balance method
@@ -15,19 +15,15 @@ function useMetamask() {
         method: "eth_getBalance",
         params: [account, "latest"],
       })
-      .then((balance) => {
-        // Setting balance
-        setAccountData({
-          Balance: ethers.utils.formatEther(balance),
-        });
+      .then((balanceData) => {
+        dispatch(setAccountDataState({
+          address: account,
+          balance: ethers.utils.formatEther(balanceData)
+        }));
       });
   };
 
   const accountChangeHandler = (account) => {
-    setAccountData({
-      address: account,
-    });
-
     getBalance(account);
   };
 
@@ -38,25 +34,22 @@ function useMetamask() {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then((accounts) => {
-          // User approved account access
-          setIsConnected(true);
+          dispatch(setIsConnectedState(true));
           accountChangeHandler(accounts[0]);
         })
         .catch((error) => {
           // User denied account access or MetaMask not available
           console.error(error);
-          setIsConnected(false);
-          setAccountData(null);
+          dispatch(setIsConnectedState(false));
         });
     } else {
       // MetaMask not available
-      setIsConnected(false);
-      setAccountData(null);
+      dispatch(setIsConnectedState(false));
       alert("install metamask extension!!");
     }
-  }
+  };
 
-  return { connectionHandler, isConnected, accountData };
+  return { connectionHandler };
 }
 
 export default useMetamask;

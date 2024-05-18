@@ -1,6 +1,6 @@
 import React from "react";
 
-import Navigator from "./router/Routes";
+import Navigator from "./router/routes";
 
 function App() {
   return (
