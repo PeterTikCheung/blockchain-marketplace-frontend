@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import Login from "../components/Login.js";
+import Login from "../components/auth/Login.js";
 //import Registration from "../components/Registration.js";
 
 const Navigator = () => {
