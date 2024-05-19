@@ -8,6 +8,7 @@ import {
   Typography,
   Dialog,
   DialogContent,
+  Box,
 } from "@mui/material";
 import Header from "./Header";
 
@@ -58,6 +59,17 @@ export default function ListItem() {
           <Card>
             <CardContent>
               <Typography variant="h6">Add Item</Typography>
+              {itemImage && (
+                <img
+                  src={`data:image/jpeg;base64,${itemImage}`}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    objectFit: "contain",
+                  }}
+                  alt="Selected Item"
+                />
+              )}
               <TextField
                 label="Name"
                 value={itemName}
@@ -81,15 +93,21 @@ export default function ListItem() {
                 fullWidth
                 margin="normal"
               />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-              {itemImage && <img src={`data:image/jpeg;base64,${itemImage}`} style = {{maxWidth:"100%", maxHeight: "300px", objectFit:"contain"}}alt="Selected Item" />}
-              <Button variant="contained" onClick={handleAddItem} sx={{marginLeft: 2}}>
-                Add
-              </Button>
+              <Box>
+                <Typography>Item Image</Typography>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                <Button
+                  variant="contained"
+                  onClick={handleAddItem}
+                  sx={{ marginLeft: 2 }}
+                >
+                  Add
+                </Button>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
