@@ -27,6 +27,9 @@ function Header({ balance }) {
           <Link to={ComponentUrls.ListItem} variant="h6" style = {{marginLeft : 10, fontWeight: "bold", fontSize: 24}}>
             Sell
           </Link>
+          <Link to={ComponentUrls.History} variant="h6" style = {{marginLeft : 10, fontWeight: "bold", fontSize: 24}}>
+            History
+          </Link>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
           <IconButton color="inherit">

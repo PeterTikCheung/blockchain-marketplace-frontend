@@ -6,6 +6,7 @@ import Login from "../components/auth/Login.js";
 import SignUp from "../components/auth/SignUp.js";
 import Marketplace from "../components/marketplace/Marketplace.js";
 import ListItem from "../components/marketplace/ListItem.js";
+import History from "../components/marketplace/History.js";
 
 const Navigator = () => {
   return (
@@ -16,6 +17,7 @@ const Navigator = () => {
           <Route path={ComponentUrls.SignUp} element={<SignUp />} />
           <Route path={ComponentUrls.Marketplace} element={<Marketplace />} />
           <Route path={ComponentUrls.ListItem} element={<ListItem />} />
+          <Route path={ComponentUrls.History} element={<History />} />
         </Routes>
       </Router>
     </div>
