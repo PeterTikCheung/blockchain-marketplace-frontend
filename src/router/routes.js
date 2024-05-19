@@ -4,6 +4,7 @@ import ComponentUrls from "../utils/componentPaths.js";
 
 import Login from "../components/auth/Login.js";
 import SignUp from "../components/auth/SignUp.js";
+import Marketplace from "../components/marketplace/Marketplace.js";
 
 const Navigator = () => {
   return (
@@ -12,6 +13,7 @@ const Navigator = () => {
         <Routes>
           <Route path={ComponentUrls.Login} element={<Login />} />
           <Route path={ComponentUrls.SignUp} element={<SignUp />} />
+          <Route path={ComponentUrls.Marketplace} element={<Marketplace />} />
         </Routes>
       </Router>
     </div>
