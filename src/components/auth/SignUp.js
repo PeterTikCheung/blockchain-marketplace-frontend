@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -11,17 +11,23 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ComponentUrls from "../../utils/componentPaths";
+import useSignUp from "../../hooks/auth/useSignUp";
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const {isSuccess, registration} = useSignUp();
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const username = data.get("username");
+    const password = data.get("password");
+    await registration(username, password)
+    if(isSuccess){
+      navigate(ComponentUrls.Login);
+    }
+
   };
 
   return (
@@ -56,6 +62,7 @@ export default function SignUp() {
                   id="username"
                   label="username"
                   name="username"
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
