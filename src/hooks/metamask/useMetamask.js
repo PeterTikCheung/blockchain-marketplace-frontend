@@ -4,23 +4,24 @@ import {
   setIsConnectedState,
   setAccountDataState,
 } from "../../redux/slices/metamaskSlice";
+import { REACT_APP_SEPOLIA_ENDPOINT_URL } from "../../config";
 
 function useMetamask() {
   const dispatch = useDispatch();
 
   const getBalance = (account) => {
-    // Requesting balance method
-    window.ethereum
-      .request({
-        method: "eth_getBalance",
-        params: [account, "latest"],
-      })
-      .then((balanceData) => {
-        dispatch(setAccountDataState({
-          address: account,
-          balance: ethers.utils.formatEther(balanceData)
-        }));
-      });
+   // Creating the provider for Sepolia network
+   const provider = new ethers.providers.JsonRpcProvider(REACT_APP_SEPOLIA_ENDPOINT_URL);
+
+   // Requesting balance from Sepolia network
+   provider.getBalance(account).then((balanceData) => {
+     dispatch(
+       setAccountDataState({
+         address: account,
+         balance: ethers.utils.formatEther(balanceData),
+       })
+     );
+   });
   };
 
   const accountChangeHandler = (account) => {
