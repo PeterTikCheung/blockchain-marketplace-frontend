@@ -16,7 +16,7 @@ export default function ListItem() {
   const [itemPrice, setItemPrice] = useState("");
   const [itemImage, setItemImage] = useState(null);
   const [itemQuantity, setItemQuantity] = useState("");
-  const { addItemToDb } = useListItem();
+  const { addItemToDb, addItemToBlockchain } = useListItem();
 
   const handleAddItem = async () => {
     const newItem = {
@@ -26,7 +26,13 @@ export default function ListItem() {
       remainingQuantity: parseInt(itemQuantity),
     };
     const itemUuid = crypto.randomUUID();
-    await addItemToDb(itemUuid, newItem.image, newItem.name)
+    await addItemToDb(itemUuid, newItem.image, newItem.name);
+    await addItemToBlockchain(
+      itemUuid,
+      newItem.name,
+      newItem.price,
+      newItem.remainingQuantity
+    );
     setItemName("");
     setItemPrice("");
     setItemImage(null);
