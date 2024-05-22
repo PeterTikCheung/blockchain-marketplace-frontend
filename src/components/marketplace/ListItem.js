@@ -6,29 +6,27 @@ import {
   Grid,
   TextField,
   Typography,
-  Dialog,
-  DialogContent,
   Box,
 } from "@mui/material";
 import Header from "./Header";
+import useListItem from "../../hooks/marketplace/useListItem";
 
 export default function ListItem() {
-  const [items, setItems] = useState([]);
   const [itemName, setItemName] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [itemImage, setItemImage] = useState(null);
   const [itemQuantity, setItemQuantity] = useState("");
-  const [openDialog, setOpenDialog] = useState(false);
+  const { addItemToDb } = useListItem();
 
-  const handleAddItem = () => {
+  const handleAddItem = async () => {
     const newItem = {
-      id: items.length + 1,
       name: itemName,
       price: parseFloat(itemPrice),
       image: itemImage,
       remainingQuantity: parseInt(itemQuantity),
     };
-    setItems([...items, newItem]);
+    const itemUuid = crypto.randomUUID();
+    await addItemToDb(itemUuid, newItem.image, newItem.name)
     setItemName("");
     setItemPrice("");
     setItemImage(null);
@@ -44,10 +42,6 @@ export default function ListItem() {
       };
       reader.readAsDataURL(e.target.files[0]);
     }
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
   };
 
   return (

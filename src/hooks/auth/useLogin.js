@@ -38,9 +38,10 @@ const useLogin = () => {
         const decodedToken = jwtDecode(token);
         console.log("Decoded JWT:", decodedToken);
         // Extract username and user UUID from the decoded token
-        const { username, userUUID } = decodedToken;
+        const { username, userUuid } = decodedToken;
         dispatch(setUsername(username));
-        dispatch(setUserUuid(userUUID));
+        console.log(userUuid);
+        dispatch(setUserUuid(userUuid));
         return Promise.resolve(); // Resolve the Promise when registration is successful
       } else {
         // Handle authentication error
