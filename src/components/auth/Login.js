@@ -1,9 +1,8 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -11,27 +10,35 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useMetamask from "../../hooks/metamask/useMetamask";
-import ComponentUrls from '../../utils/componentPaths';
+import ComponentUrls from "../../utils/componentPaths";
 import { useSelector } from "react-redux";
+import useLogin from "../../hooks/auth/useLogin";
+import { useEffect } from "react";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
   const { connectionHandler } = useMetamask();
+  const { isSuccess, login } = useLogin();
   const isConnected = useSelector((state) => state.metamask.isConnected);
-  console.log(isConnected);
+  const navigate = useNavigate();
 
   const onMetamaskButtonClick = () => {
     connectionHandler();
   };
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    if (isSuccess) {
+      navigate(ComponentUrls.Marketplace);
+    }
+  }, [isSuccess, navigate]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const username = data.get("username");
+    const password = data.get("password");
+    await login(username, password);
   };
 
   return (
@@ -63,10 +70,9 @@ export default function Login() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="username"
+                name="username"
                 autoFocus
               />
               <TextField
@@ -77,7 +83,6 @@ export default function Login() {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
               />
               <Button
                 type="submit"
@@ -97,23 +102,16 @@ export default function Login() {
               </Grid>
             </Box>
           )}
-          {!isConnected && (
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{ mt: 1 }}
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={onMetamaskButtonClick}
+              disabled={isConnected}
             >
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                onClick= {onMetamaskButtonClick}
-              >
-                Connect with MetaMask
-              </Button>
-            </Box>
-          )}
+              Connect with MetaMask
+            </Button>
         </Box>
       </Container>
     </ThemeProvider>
