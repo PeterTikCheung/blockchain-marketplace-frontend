@@ -10,8 +10,10 @@ import {
 import { Link } from "react-router-dom";
 import { AccountCircle } from "@mui/icons-material";
 import ComponentUrls from "../../utils/componentPaths";
+import {useSelector} from 'react-redux';
 
-function Header({ balance }) {
+function Header() {
+  const accountData = useSelector((state)=> state.metamask.accountData)
   return (
     <AppBar position="static">
       <Toolbar>
@@ -38,7 +40,7 @@ function Header({ balance }) {
             </Avatar>
           </IconButton>
           <Typography variant="subtitle1" sx={{ marginRight: 2 }}>
-            Balance: ${balance}
+            Balance: ${accountData.balance} ETH
           </Typography>
         </Box>
       </Toolbar>

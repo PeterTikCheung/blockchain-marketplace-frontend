@@ -43,8 +43,8 @@ const useListItem = () => {
 
   const addItemToBlockchain = async (metaUuid, name, price, quantity) => {
     try {
-      const userAddress = metamask.address;
       const provider = new ethers.providers.Web3Provider(window.ethereum, "sepolia")
+      const weiValue = ethers.utils.parseEther((price).toString());
 
       // Send the signed transaction to the blockchain
       const contract = new ethers.Contract(
@@ -55,7 +55,7 @@ const useListItem = () => {
       const tx = await contract.addProduct(
         metaUuid,
         name,
-        price,
+        weiValue,
         quantity,
         userUuid
       );

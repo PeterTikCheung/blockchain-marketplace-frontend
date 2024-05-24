@@ -52,7 +52,7 @@ export default function ListItem() {
 
   return (
     <div>
-      <Header balance={100} />
+      <Header/>
 
       <Grid container spacing={2} sx={{ padding: 2 }}>
         <Grid item xs={12}>
@@ -78,7 +78,7 @@ export default function ListItem() {
                 margin="normal"
               />
               <TextField
-                label="Price"
+                label="Price (ETH)"
                 value={itemPrice}
                 onChange={(e) => setItemPrice(e.target.value)}
                 type="number"

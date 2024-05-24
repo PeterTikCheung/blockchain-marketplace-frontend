@@ -27,7 +27,7 @@ const historyData = [
 const History = () => {
   return (
     <div>
-      <Header balance={100} />
+      <Header/>
       <List>
         {historyData.map((history, index) => (
           <ListItem key={index}>
