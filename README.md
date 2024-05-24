@@ -1,4 +1,4 @@
-# Hardhat and blockchain Project
+# React and blockchain Project
 
 This project demonstrates a blockchain marketplace with smart contract implementaion. It comes with smart contracts interaction, metamask integration and react frontend.
 
